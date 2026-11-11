@@ -22,7 +22,7 @@ export default function HomePage() {
           <div className="hero-copy">
             <span className="eyebrow"><span className="status-dot" /> Ferramentas grátis. Sem cadastro.</span>
             <h1>O útil, sem complicação.</h1>
-            <p>Ferramentas online para resolver tarefas do dia a dia. Simples de usar e com seus arquivos processados no próprio dispositivo.</p>
+            <p>Ferramentas online grátis para imagens, trabalho, negócios e viagens. Resolva tarefas do dia a dia com seus arquivos processados no próprio dispositivo.</p>
           </div>
           <div className="hero-note">
             <span className="note-icon" aria-hidden="true">✳</span>
@@ -55,7 +55,7 @@ export default function HomePage() {
           {categories.map((category) => {
             const count = tools.filter((tool) => tool.category === category.slug).length;
             return <Link className="category-card" href={`/ferramentas?categoria=${category.slug}`} key={category.slug}>
-              <span className="category-icon" aria-hidden="true">{category.slug === "imagens" ? "▧" : category.slug === "negocios" ? "↗" : "◷"}</span>
+              <span className="category-icon" aria-hidden="true">{category.slug === "imagens" ? "▧" : category.slug === "negocios" ? "↗" : category.slug === "trabalho" ? "◷" : "⌁"}</span>
               <span><strong>{category.name}</strong><small>{category.description}</small></span>
               <span className="category-count">{count} {count === 1 ? "ferramenta" : "ferramentas"}</span>
             </Link>;
@@ -75,7 +75,16 @@ export default function HomePage() {
 }
 
 export const metadata = {
-  title: "Ferramentas online grátis e privadas",
-  description: "Comprima imagens, crie foto 3x4, calcule preço de venda e horas trabalhadas. Ferramentas grátis, sem cadastro e com processamento local.",
+  title: "Ferramentas online grátis: imagens, trabalho e viagens",
+  description: "Comprima imagens, faça foto 3x4, calcule preço de venda, horas trabalhadas e consumo de combustível por viagem. Grátis, sem cadastro e com processamento local.",
+  keywords: [
+    ...new Set([
+      "ferramentas online grátis",
+      "ferramentas gratuitas sem cadastro",
+      "consumo de combustível por viagem",
+      "calculadora de custo de viagem",
+      ...tools.flatMap((tool) => tool.keywords),
+    ]),
+  ],
   alternates: { canonical: "/" },
 };

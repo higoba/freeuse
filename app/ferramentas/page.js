@@ -7,7 +7,8 @@ import { categories, tools } from "@/lib/tools";
 
 export const metadata = {
   title: "Todas as ferramentas online grátis",
-  description: "Encontre ferramentas gratuitas para imagens, negócios e jornada de trabalho. Sem cadastro e com processamento privado.",
+  description: "Encontre ferramentas online grátis para imagens, negócios, trabalho e viagens. Comprima fotos, calcule jornadas, preços de venda e consumo por viagem sem cadastro.",
+  keywords: [...new Set(tools.flatMap((tool) => tool.keywords))],
   alternates: { canonical: "/ferramentas" },
 };
 

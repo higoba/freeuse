@@ -15,7 +15,7 @@ export default function ToolSearch({ tools }) {
     <label className="search-field">
       <span className="search-icon" aria-hidden="true">⌕</span>
       <span className="sr-only">Buscar ferramenta</span>
-      <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Ex.: comprimir imagem, calcular preço..." type="search" autoComplete="off" />
+      <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Ex.: comprimir imagem, horas extras, consumo de combustível..." type="search" autoComplete="off" />
       {query && <button className="search-clear" type="button" onClick={() => setQuery("")} aria-label="Limpar busca">×</button>}
     </label>
     {query && <div className="search-results" role="status" aria-live="polite">

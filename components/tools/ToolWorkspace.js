@@ -9,6 +9,7 @@ const workspaces = {
   "foto-3x4": dynamic(() => import("@/components/tools/Photo3x4"), { loading: LoadingTool }),
   "calculadora-preco-venda": dynamic(() => import("@/components/tools/PriceCalculator"), { loading: LoadingTool }),
   "calculadora-horas-trabalhadas": dynamic(() => import("@/components/tools/WorkHoursCalculator"), { loading: LoadingTool }),
+  "calculadora-custo-viagem": dynamic(() => import("@/components/tools/TravelCostCalculator"), { loading: LoadingTool }),
   "converter-heic-jpg": dynamic(() => import("@/components/tools/HeicConverter"), { loading: LoadingTool }),
 };
 

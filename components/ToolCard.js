@@ -1,7 +1,7 @@
 import Link from "next/link";
 
-const icons = { imagens: "▧", negocios: "↗", trabalho: "◷" };
-const categoryNames = { imagens: "Imagens", negocios: "Negócios", trabalho: "Trabalho" };
+const icons = { imagens: "▧", negocios: "↗", trabalho: "◷", viagens: "⌁" };
+const categoryNames = { imagens: "Imagens", negocios: "Negócios", trabalho: "Trabalho", viagens: "Viagens" };
 
 export default function ToolCard({ tool, index = 0 }) {
   return <Link className="tool-card" href={`/ferramentas/${tool.slug}`}>

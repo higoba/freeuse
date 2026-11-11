@@ -19,6 +19,7 @@ export async function generateMetadata({ params }) {
   return {
     title: tool.title,
     description: tool.description,
+    keywords: tool.keywords,
     alternates: { canonical: url },
     openGraph: { title: tool.title, description: tool.description, url, type: "website" },
   };
@@ -75,6 +76,7 @@ export default async function ToolPage({ params }) {
       offers: { "@type": "Offer", price: "0", priceCurrency: "BRL" },
       url: `${SITE_URL}/ferramentas/${tool.slug}`,
       description: tool.description,
+      keywords: tool.keywords,
       inLanguage: "pt-BR",
     }} />
   </article>;

@@ -10,7 +10,7 @@ export const metadata = {
     default: "FreeUse.store — ferramentas online grátis e privadas",
     template: "%s | FreeUse.store",
   },
-  description: "Ferramentas online gratuitas para imagens, negócios e trabalho. Simples, sem cadastro e com processamento local.",
+  description: "Ferramentas online grátis para imagens, negócios, trabalho e viagens. Sem cadastro, com cálculos e processamento local.",
   applicationName: "FreeUse.store",
   alternates: { canonical: "/" },
   openGraph: {
@@ -18,7 +18,7 @@ export const metadata = {
     locale: "pt_BR",
     siteName: "FreeUse.store",
     title: "FreeUse.store — ferramentas online grátis e privadas",
-    description: "Utilidades gratuitas que respeitam sua privacidade. Sem conta, sem complicação.",
+    description: "Ferramentas gratuitas para imagens, trabalho, negócios e viagens. Sem conta e sem complicação.",
     url: SITE_URL,
   },
   robots: { index: true, follow: true },
