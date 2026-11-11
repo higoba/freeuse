@@ -29,8 +29,8 @@ export default async function ToolsPage({ searchParams }) {
       <Link className={`filter-chip ${!category ? "active" : ""}`} href="/ferramentas">Todas</Link>
       {categories.map((item) => <Link className={`filter-chip ${category === item.slug ? "active" : ""}`} key={item.slug} href={`/ferramentas?categoria=${item.slug}`}>{item.name}</Link>)}
     </nav>
+    <AdSlot className="site-ad-placement" slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_MIDDLE || process.env.NEXT_PUBLIC_ADSENSE_SLOT_TOOLS} />
     <div className="tool-grid tool-grid-all">{visible.map((tool, index) => <ToolCard key={tool.slug} tool={tool} index={index} />)}</div>
-    <AdSlot slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_MIDDLE || process.env.NEXT_PUBLIC_ADSENSE_SLOT_TOOLS} />
     {visible.length === 0 && <p className="empty-state">Nenhuma ferramenta nesta categoria.</p>}
   </section>;
 }
