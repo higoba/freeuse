@@ -10,6 +10,8 @@ const workspaces = {
   "calculadora-preco-venda": dynamic(() => import("@/components/tools/PriceCalculator"), { loading: LoadingTool }),
   "calculadora-horas-trabalhadas": dynamic(() => import("@/components/tools/WorkHoursCalculator"), { loading: LoadingTool }),
   "calculadora-custo-viagem": dynamic(() => import("@/components/tools/TravelCostCalculator"), { loading: LoadingTool }),
+  "conversor-moedas": dynamic(() => import("@/components/tools/CurrencyConverter"), { loading: LoadingTool }),
+  "planejador-viagem-internacional": dynamic(() => import("@/components/tools/TravelPlanner"), { loading: LoadingTool }),
   "converter-heic-jpg": dynamic(() => import("@/components/tools/HeicConverter"), { loading: LoadingTool }),
 };
 

@@ -48,6 +48,7 @@ export default function HomePage() {
           <div className="tool-grid">{featured.map((tool, index) => <ToolCard key={tool.slug} tool={tool} index={index} />)}</div>
         </div>
       </section>
+      <section className="container"><AdSlot slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_MIDDLE || process.env.NEXT_PUBLIC_ADSENSE_SLOT_HOME} /></section>
 
       <section className="section container">
         <div className="section-heading"><div><span className="eyebrow">Organizadas para você</span><h2>Explore por categoria</h2></div></div>
@@ -55,7 +56,7 @@ export default function HomePage() {
           {categories.map((category) => {
             const count = tools.filter((tool) => tool.category === category.slug).length;
             return <Link className="category-card" href={`/ferramentas?categoria=${category.slug}`} key={category.slug}>
-              <span className="category-icon" aria-hidden="true">{category.slug === "imagens" ? "▧" : category.slug === "negocios" ? "↗" : category.slug === "trabalho" ? "◷" : "⌁"}</span>
+              <span className="category-icon" aria-hidden="true">{category.slug === "imagens" ? "▧" : category.slug === "negocios" ? "↗" : category.slug === "trabalho" ? "◷" : category.slug === "moedas" ? "⇄" : "⌁"}</span>
               <span><strong>{category.name}</strong><small>{category.description}</small></span>
               <span className="category-count">{count} {count === 1 ? "ferramenta" : "ferramentas"}</span>
             </Link>;
@@ -69,14 +70,13 @@ export default function HomePage() {
           <div className="tool-grid">{tools.slice(-2).reverse().map((tool, index) => <ToolCard key={tool.slug} tool={tool} index={index + 3} />)}</div>
         </div>
       </section>
-      <section className="container"><AdSlot slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_HOME} /></section>
     </>
   );
 }
 
 export const metadata = {
-  title: "Ferramentas online grátis: imagens, trabalho e viagens",
-  description: "Comprima imagens, faça foto 3x4, calcule preço de venda, horas trabalhadas e consumo de combustível por viagem. Grátis, sem cadastro e com processamento local.",
+  title: "Ferramentas online grátis: imagens, cálculos, viagens e moedas",
+  description: "Use ferramentas grátis para comprimir imagens, calcular preços, jornadas e viagens, converter moedas e comparar requisitos financeiros internacionais. Sem cadastro.",
   keywords: [
     ...new Set([
       "ferramentas online grátis",

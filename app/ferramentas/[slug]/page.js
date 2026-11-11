@@ -21,7 +21,8 @@ export async function generateMetadata({ params }) {
     description: tool.description,
     keywords: tool.keywords,
     alternates: { canonical: url },
-    openGraph: { title: tool.title, description: tool.description, url, type: "website" },
+    openGraph: { title: tool.title, description: tool.description, url, type: "website", locale: "pt_BR" },
+    twitter: { card: "summary", title: tool.title, description: tool.description },
   };
 }
 
@@ -41,9 +42,10 @@ export default async function ToolPage({ params }) {
       <span className="eyebrow">{category?.name || "Ferramenta gratuita"}</span>
       <h1>{tool.title}</h1>
       <p>{tool.intro}</p>
-      <span className="privacy-pill"><span aria-hidden="true">◉</span> Processamento local · sem cadastro</span>
+      <span className="privacy-pill"><span aria-hidden="true">◉</span> Sem cadastro · {tool.privacyLabel || "processamento local"}</span>
     </header>
     <ToolWorkspace slug={tool.slug} />
+    <AdSlot slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_MIDDLE || process.env.NEXT_PUBLIC_ADSENSE_SLOT_TOOL} />
     <section className="editorial">
       <h2>Como usar {tool.shortTitle.toLocaleLowerCase("pt-BR")}</h2>
       <ol className="instruction-list">{tool.steps.map((step) => <li key={step}>{step}</li>)}</ol>
@@ -65,8 +67,7 @@ export default async function ToolPage({ params }) {
       <div className="section-heading"><div><span className="eyebrow">Continue explorando</span><h2>Ferramentas relacionadas</h2></div><Link className="text-link" href="/ferramentas">Todas as ferramentas →</Link></div>
       <div className="tool-grid">{related.map((item, index) => <ToolCard key={item.slug} tool={item} index={index} />)}</div>
     </section>
-    <AdSlot slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_TOOL} />
-    <p className="privacy-note">Os arquivos escolhidos são processados neste navegador. O FreeUse.store não os recebe nem armazena.</p>
+    <p className="privacy-note">{tool.privacyNote || "Os arquivos escolhidos são processados neste navegador. O FreeUse.store não os recebe nem armazena."}</p>
     <StructuredData data={{
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",

@@ -6,8 +6,8 @@ import AdSlot from "@/components/AdSlot";
 import { categories, tools } from "@/lib/tools";
 
 export const metadata = {
-  title: "Todas as ferramentas online grátis",
-  description: "Encontre ferramentas online grátis para imagens, negócios, trabalho e viagens. Comprima fotos, calcule jornadas, preços de venda e consumo por viagem sem cadastro.",
+  title: "Ferramentas online grátis para imagens, trabalho, viagens e moedas",
+  description: "Encontre ferramentas grátis para comprimir imagens, calcular preços e jornadas, estimar custos de viagem, converter moedas e comparar requisitos financeiros internacionais.",
   keywords: [...new Set(tools.flatMap((tool) => tool.keywords))],
   alternates: { canonical: "/ferramentas" },
 };
@@ -30,7 +30,7 @@ export default async function ToolsPage({ searchParams }) {
       {categories.map((item) => <Link className={`filter-chip ${category === item.slug ? "active" : ""}`} key={item.slug} href={`/ferramentas?categoria=${item.slug}`}>{item.name}</Link>)}
     </nav>
     <div className="tool-grid tool-grid-all">{visible.map((tool, index) => <ToolCard key={tool.slug} tool={tool} index={index} />)}</div>
+    <AdSlot slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_MIDDLE || process.env.NEXT_PUBLIC_ADSENSE_SLOT_TOOLS} />
     {visible.length === 0 && <p className="empty-state">Nenhuma ferramenta nesta categoria.</p>}
-    <AdSlot slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_TOOLS} />
   </section>;
 }

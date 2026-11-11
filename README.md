@@ -1,6 +1,6 @@
 # FreeUse.store
 
-Ferramentas online gratuitas, úteis e privadas. A plataforma é independente: os seis utilitários processam imagens e cálculos diretamente no navegador, sem conta e sem enviar arquivos para um servidor.
+Ferramentas online gratuitas, úteis e privadas. A plataforma é independente: ferramentas de imagem e cálculos pessoais funcionam no navegador; consultas de câmbio usam fontes públicas e não recebem valores de orçamento ou viagem.
 
 ## Requisitos
 
@@ -30,6 +30,8 @@ npm run build
 - `lib/tools.js`: registro central de ferramentas, categorias e conteúdo editorial/SEO.
 - `lib/`: cálculos e utilitários puros, testados com `node:test`.
 - `lib/travel.js`: estimativas de custo por tipo de propulsão, separadas da interface e de futuras integrações de dados.
+- `lib/currency-api.js` e `app/api/moedas/`: camada de cotação e histórico. USD/BRL usa séries diárias de compra e venda do Banco Central do Brasil; demais pares usam Frankfurter, com referências do BCE.
+- `lib/travel-requirements.js`: requisitos de viagem vinculados a fontes oficiais, com resultados explicitamente não confirmados quando não há valor confiável.
 
 As páginas e o conteúdo editorial são Server Components por padrão. Apenas controles interativos e processamento de arquivos usam Client Components. Bibliotecas para HEIC e ZIP são importadas somente quando a pessoa inicia uma conversão.
 
@@ -50,13 +52,13 @@ A calculadora aceita distância informada, consumo e preços digitados pelo usu�
 
 ## Privacidade e configuração
 
-Não há autenticação nem banco de dados. A URL canônica padrão é `https://freeuse.store`; se o domínio mudar, atualize `metadataBase` em `app/layout.js`. Compressão, recorte 3x4 e conversão HEIC acontecem localmente. Objetos temporários são liberados ao remover arquivos ou sair da página.
+Não há autenticação nem banco de dados. A URL canônica padrão é `https://freeuse.store`; se o domínio mudar, atualize `metadataBase` em `app/layout.js`. Compressão, recorte 3x4, conversão HEIC, cálculos e orçamento de viagem acontecem localmente. Nas consultas cambiais, só os códigos de moedas são enviados ao servidor; valores e dados da viagem ficam no navegador.
 
 ## Google AdSense
 
 - O script do editor AdSense é carregado no `<head>` global usando o publisher ID `ca-pub-2521433324822656`.
 - `public/ads.txt` declara o vendedor autorizado. O arquivo deve ficar acessível em `https://freeuse.store/ads.txt` depois do deploy.
-- Os espaços de anúncio aparecem somente quando configurados com um ID de unidade criado no painel do AdSense. Copie `.env.example`, preencha os IDs e disponibilize as variáveis `NEXT_PUBLIC_ADSENSE_SLOT_HOME`, `NEXT_PUBLIC_ADSENSE_SLOT_TOOLS` e `NEXT_PUBLIC_ADSENSE_SLOT_TOOL` no ambiente de build do deploy. Não invente IDs de unidade; sem configuração, os espaços permanecem desligados.
+- Há três posições por página: topo, meio do conteúdo e fim. Sem um ID real, a posição fica reservada e nenhum anúncio é solicitado. Copie `.env.example` e configure `NEXT_PUBLIC_ADSENSE_SLOT_TOP`, `NEXT_PUBLIC_ADSENSE_SLOT_MIDDLE` e `NEXT_PUBLIC_ADSENSE_SLOT_BOTTOM` com IDs criados no painel do AdSense. Não invente IDs.
 - Publique a política de privacidade, os termos e o contato com informações verdadeiras, configure o site no painel do AdSense e verifique propriedade, ads.txt, consentimento e requisitos de conteúdo. A inclusão do código ou o cumprimento de boas práticas não garante aprovação. Se houver público no Espaço Econômico Europeu, Reino Unido ou Suíça, configure uma plataforma de consentimento certificada pelo Google antes de exibir anúncios nessas regiões.
 - O formulário único do rodapé prepara uma dica, sugestão, relato de problema ou mensagem para `contato@freeuse.store` no aplicativo de e-mail do visitante. Ele não envia nem armazena mensagens no servidor; a pessoa precisa confirmar o envio no próprio aplicativo.
 

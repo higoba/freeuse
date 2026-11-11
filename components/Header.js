@@ -20,6 +20,16 @@ export default function Header() {
     return () => document.removeEventListener("keydown", closeOnEscape);
   }, [menuOpen]);
 
+  useEffect(() => {
+    const header = document.querySelector(".site-header");
+    if (!header) return undefined;
+    const updateHeight = () => document.documentElement.style.setProperty("--site-header-height", `${header.offsetHeight}px`);
+    updateHeight();
+    const observer = new ResizeObserver(updateHeight);
+    observer.observe(header);
+    return () => observer.disconnect();
+  }, [menuOpen]);
+
   return <header className="site-header">
     <div className="container header-inner">
       <Link href="/" className="brand" aria-label="FreeUse.store, página inicial" onClick={closeMenu}>
