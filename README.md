@@ -41,7 +41,15 @@ As páginas e o conteúdo editorial são Server Components por padrão. Apenas c
 
 ## Privacidade e configuração
 
-Não há autenticação, banco de dados ou variáveis de ambiente obrigatórias. A URL canônica padrão é `https://freeuse.store`; se o domínio mudar, atualize `metadataBase` em `app/layout.js`. Compressão, recorte 3x4 e conversão HEIC acontecem localmente. Objetos temporários são liberados ao remover arquivos ou sair da página.
+Não há autenticação nem banco de dados. A URL canônica padrão é `https://freeuse.store`; se o domínio mudar, atualize `metadataBase` em `app/layout.js`. Compressão, recorte 3x4 e conversão HEIC acontecem localmente. Objetos temporários são liberados ao remover arquivos ou sair da página.
+
+## Google AdSense
+
+- O script do editor AdSense é carregado no `<head>` global usando o publisher ID `ca-pub-2521433324822656`.
+- `public/ads.txt` declara o vendedor autorizado. O arquivo deve ficar acessível em `https://freeuse.store/ads.txt` depois do deploy.
+- Os espaços de anúncio aparecem somente quando configurados com um ID de unidade criado no painel do AdSense. Copie `.env.example`, preencha os IDs e disponibilize as variáveis `NEXT_PUBLIC_ADSENSE_SLOT_HOME`, `NEXT_PUBLIC_ADSENSE_SLOT_TOOLS` e `NEXT_PUBLIC_ADSENSE_SLOT_TOOL` no ambiente de build do deploy. Não invente IDs de unidade; sem configuração, os espaços permanecem desligados.
+- Publique a política de privacidade, os termos e o contato com informações verdadeiras, configure o site no painel do AdSense e verifique propriedade, ads.txt, consentimento e requisitos de conteúdo. A inclusão do código ou o cumprimento de boas práticas não garante aprovação. Se houver público no Espaço Econômico Europeu, Reino Unido ou Suíça, configure uma plataforma de consentimento certificada pelo Google antes de exibir anúncios nessas regiões.
+- Os campos de sugestão no rodapé preparam uma mensagem para `contato@freeuse.store` no aplicativo de e-mail do visitante. Eles não enviam nem armazenam mensagens no servidor; a pessoa precisa confirmar o envio no próprio aplicativo.
 
 ## GitHub Actions
 

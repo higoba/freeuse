@@ -18,6 +18,8 @@ export default function TermsPage() {
     <p>Os resultados são fornecidos como apoio prático. Verifique dimensões, cálculos e arquivos antes de utilizá-los. A ferramenta de foto 3x4 não certifica o atendimento a exigências oficiais. A calculadora de jornada não interpreta legislação, contratos ou convenções coletivas.</p>
     <h2>Seus arquivos e conteúdo</h2>
     <p>Você é responsável por possuir os direitos e autorizações necessários para os arquivos selecionados. O processamento local não transfere seus arquivos ao FreeUse.store.</p>
+    <h2>Publicidade</h2>
+    <p>O site pode exibir anúncios do Google AdSense. Anúncios são identificados como publicidade e podem ser fornecidos por terceiros, sujeitos às respectivas políticas e configurações de privacidade. Não clique em anúncios para apoiar o site; interaja com eles somente se forem relevantes para você.</p>
     <h2>Uso proibido</h2>
     <p>Não use o site para atividades ilícitas, para prejudicar terceiros ou para tentar comprometer sua segurança e disponibilidade.</p>
     <h2>Contato</h2>

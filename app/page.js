@@ -23,7 +23,6 @@ export default function HomePage() {
             <span className="eyebrow"><span className="status-dot" /> Ferramentas grátis. Sem cadastro.</span>
             <h1>O útil, sem complicação.</h1>
             <p>Ferramentas online para resolver tarefas do dia a dia. Simples de usar e com seus arquivos processados no próprio dispositivo.</p>
-            <Link className="button button-primary" href="/ferramentas">Explorar ferramentas <span aria-hidden="true">→</span></Link>
           </div>
           <div className="hero-note">
             <span className="note-icon" aria-hidden="true">✳</span>
@@ -70,7 +69,7 @@ export default function HomePage() {
           <div className="tool-grid">{tools.slice(-2).reverse().map((tool, index) => <ToolCard key={tool.slug} tool={tool} index={index + 3} />)}</div>
         </div>
       </section>
-      <section className="container ad-wrap"><AdSlot /></section>
+      <section className="container"><AdSlot slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_HOME} /></section>
     </>
   );
 }

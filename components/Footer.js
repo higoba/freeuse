@@ -1,4 +1,5 @@
 import Link from "next/link";
+import FooterContact from "@/components/FooterContact";
 
 export default function Footer() {
   return <footer className="site-footer">
@@ -12,6 +13,7 @@ export default function Footer() {
         <Link href="/privacidade">Privacidade</Link><Link href="/termos">Termos de uso</Link><Link href="/contato">Contato</Link>
       </nav>
     </div>
+    <FooterContact />
     <div className="container footer-bottom"><span>© {new Date().getFullYear()} FreeUse.store</span><span>Grátis para usar. Feito para ser útil.</span></div>
   </footer>;
 }

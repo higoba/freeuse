@@ -196,3 +196,54 @@ h1,h2,h3,p{margin-top:0}
 @media(max-width:850px){.hero-grid{grid-template-columns:1fr 270px;gap:24px}.tool-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.category-grid{grid-template-columns:1fr}.category-count{font-size:11px}.calculator-layout{grid-template-columns:1fr}.result-panel{order:-1}.tool-grid-all{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){.container{width:min(100% - 30px,520px)}.header-inner{height:62px;gap:12px}.brand{font-size:17px}.brand-mark{width:27px;height:27px}.main-nav{gap:15px;margin:0;font-size:12px}.header-inner>.button{display:none}.hero-grid{min-height:auto;grid-template-columns:1fr;gap:25px;padding-block:48px}.hero h1{font-size:43px;letter-spacing:-2px}.hero-copy>p{font-size:16px}.hero-note{display:none}.section{padding-block:48px}.section-heading h2{font-size:24px}.section-heading{align-items:flex-start}.tool-grid,.tool-grid-all{grid-template-columns:1fr}.tool-card{min-height:175px;padding:18px}.category-card{gap:11px;padding:13px}.category-card small{font-size:11px}.category-count{font-size:9px}.footer-main{flex-direction:column;padding-block:28px}.footer-links{justify-content:flex-start;gap:12px 18px}.footer-bottom{font-size:10px}.page-section{padding-top:20px;padding-bottom:55px}.breadcrumbs{margin-bottom:23px}.page-intro h1,.info-page h1,.tool-page-header h1{font-size:35px;letter-spacing:-1.2px}.tool-workspace{margin:22px 0 35px;padding:16px}.tool-controls{flex-direction:column;gap:17px}.target-field{width:100%}.quality-field{width:100%}.dropzone{min-height:200px;padding:18px}.tool-action-row{align-items:flex-start;flex-direction:column}.action-group{width:100%}.action-group .button{flex:1}.image-result{gap:11px;padding:10px}.image-result-preview{flex-basis:68px;width:68px;height:68px}.image-stats{gap:5px 10px}.field-grid{grid-template-columns:1fr}.photo-editor{grid-template-columns:1fr;gap:22px}.photo-frame{width:min(72vw,280px)}.photo-controls{gap:15px}.compact-heading{flex-direction:column;align-items:flex-start}.period-fields{grid-template-columns:repeat(2,minmax(0,1fr))}.hours-result{grid-template-columns:1fr}.hours-result>div{flex-direction:row;align-items:center;justify-content:space-between}.expected-fields{max-width:none}.tool-page-header>p{font-size:15px}.editorial h2{font-size:19px}.editorial p,.editorial li,.info-page p{font-size:14px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+/* A barra toda permanece fixa; o menu de ferramentas se recolhe no celular. */
+.site-header{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.97);backdrop-filter:blur(12px)}
+.header-inner{height:66px;gap:20px}
+.main-nav{gap:26px;margin-right:0;font-size:14px}
+.main-nav a{padding:9px 0}
+.tool-tabs{height:48px;display:flex;align-items:center;gap:8px;overflow-x:auto;border-top:1px solid #f0f2f0;scrollbar-width:none}
+.tool-tabs::-webkit-scrollbar{display:none}
+.tool-tabs a{flex:0 0 auto;padding:7px 12px;border:1px solid transparent;border-radius:7px;color:#4f5c52;font-size:13px;font-weight:600;white-space:nowrap}
+.tool-tabs a:hover,.tool-tabs a:focus-visible{border-color:#dbe8dd;background:#f4f8f5;color:var(--green)}
+.mobile-menu-toggle{display:none}
+.mobile-menu[hidden]{display:none}
+.mobile-menu{max-height:min(70vh,560px);overflow-y:auto;border-top:1px solid var(--line);padding-block:8px 14px}
+.mobile-menu nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 10px}
+.mobile-menu a{min-width:0;padding:11px 10px;border-radius:7px;color:#36453a;font-size:14px}
+.mobile-menu a:hover,.mobile-menu a:focus-visible{background:var(--green-light);color:var(--green)}
+.mobile-menu-heading{grid-column:1/-1;padding:13px 10px 4px;color:var(--muted);font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.mobile-menu-toggle{align-items:center;justify-content:center;gap:8px;min-height:40px;padding:8px 11px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink);font-size:13px;font-weight:700;cursor:pointer}
+.menu-icon{width:18px;display:grid;gap:4px}
+.menu-icon span{height:2px;border-radius:2px;background:currentColor;transition:transform .15s,opacity .15s}
+.menu-icon-open span:first-child{transform:translateY(6px) rotate(45deg)}
+.menu-icon-open span:nth-child(2){opacity:0}
+.menu-icon-open span:last-child{transform:translateY(-6px) rotate(-45deg)}
+.footer-contact{padding-block:30px;border-top:1px solid var(--line)}
+.footer-contact-intro{max-width:620px}
+.footer-contact-intro h2{margin:6px 0;font-size:23px;letter-spacing:-.5px}
+.footer-contact-intro p,.footer-contact-note{color:var(--muted);font-size:13px}
+.footer-contact-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;margin-top:20px}
+.footer-message-form{display:flex;min-width:0;flex-direction:column;align-items:flex-start;gap:10px;padding:18px;border:1px solid var(--line);border-radius:10px;background:#fff}
+.footer-message-form label{font-size:14px;font-weight:700}
+.footer-message-form input,.footer-message-form textarea{width:100%;min-width:0;padding:10px 12px;border:1px solid #d9e1da;border-radius:7px;background:#fff;color:var(--ink);font-size:14px}
+.footer-message-form textarea{min-height:82px;resize:vertical}
+.footer-message-form input:focus,.footer-message-form textarea:focus{border-color:#86b699;outline:3px solid rgba(68,145,91,.12)}
+.footer-contact-fields{display:grid;width:100%;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.footer-contact-note{margin:14px 0 0;font-size:11px}
+.ad-wrap{min-height:0}
+.google-ad{width:100%;min-height:100px;margin-inline:auto}
+@media(max-width:760px){
+  .header-inner{height:60px;gap:12px}
+  .main-nav,.tool-tabs{display:none}
+  .mobile-menu-toggle{display:inline-flex;margin-left:auto}
+}
+@media(max-width:600px){
+  .footer-contact{padding-block:25px}
+  .footer-contact-grid{grid-template-columns:1fr;gap:13px}
+  .footer-message-form{padding:14px}
+  .footer-message-form .button{width:100%}
+  .mobile-menu nav{grid-template-columns:1fr}
+  .mobile-menu-heading{padding-top:10px}
+}
+@media(max-width:360px){.brand{font-size:16px}.brand-mark{width:26px;height:26px}}

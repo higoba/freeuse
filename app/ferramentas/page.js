@@ -2,6 +2,7 @@ import Link from "next/link";
 import ToolCard from "@/components/ToolCard";
 import ToolSearch from "@/components/ToolSearch";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import AdSlot from "@/components/AdSlot";
 import { categories, tools } from "@/lib/tools";
 
 export const metadata = {
@@ -29,5 +30,6 @@ export default async function ToolsPage({ searchParams }) {
     </nav>
     <div className="tool-grid tool-grid-all">{visible.map((tool, index) => <ToolCard key={tool.slug} tool={tool} index={index} />)}</div>
     {visible.length === 0 && <p className="empty-state">Nenhuma ferramenta nesta categoria.</p>}
+    <AdSlot slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_TOOLS} />
   </section>;
 }

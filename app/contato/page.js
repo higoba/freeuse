@@ -12,7 +12,7 @@ export default function ContactPage() {
     <span className="eyebrow">Estamos por aqui</span>
     <h1>Contato</h1>
     <p className="lead">Encontrou um problema ou quer sugerir uma ferramenta?</p>
-    <p>Envie uma mensagem para <a href="mailto:contato@freeuse.store">contato@freeuse.store</a>. Não inclua arquivos pessoais ou informações sensíveis no e-mail.</p>
-    <p className="muted">O endereço de contato pode ser configurado para a caixa de suporte responsável pelo FreeUse.store.</p>
+    <p>Envie uma mensagem para <a href="mailto:contato@freeuse.store">contato@freeuse.store</a> ou use os campos disponíveis no rodapé. Os formulários abrem seu aplicativo de e-mail com a mensagem preparada; é necessário confirmar o envio nesse aplicativo.</p>
+    <p>Não inclua arquivos pessoais, senhas ou outras informações sensíveis no e-mail.</p>
   </section>;
 }

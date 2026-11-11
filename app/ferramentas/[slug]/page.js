@@ -4,6 +4,7 @@ import ToolWorkspace from "@/components/tools/ToolWorkspace";
 import ToolCard from "@/components/ToolCard";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import StructuredData from "@/components/StructuredData";
+import AdSlot from "@/components/AdSlot";
 import { categories, getTool, relatedTools, tools, SITE_URL } from "@/lib/tools";
 
 export function generateStaticParams() {
@@ -63,6 +64,7 @@ export default async function ToolPage({ params }) {
       <div className="section-heading"><div><span className="eyebrow">Continue explorando</span><h2>Ferramentas relacionadas</h2></div><Link className="text-link" href="/ferramentas">Todas as ferramentas →</Link></div>
       <div className="tool-grid">{related.map((item, index) => <ToolCard key={item.slug} tool={item} index={index} />)}</div>
     </section>
+    <AdSlot slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_TOOL} />
     <p className="privacy-note">Os arquivos escolhidos são processados neste navegador. O FreeUse.store não os recebe nem armazena.</p>
     <StructuredData data={{
       "@context": "https://schema.org",
