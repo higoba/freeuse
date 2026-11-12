@@ -14,6 +14,15 @@ export const metadata = {
   },
   description: "Ferramentas online grátis para imagens, negócios, trabalho, viagens e moedas. Sem cadastro; valores e arquivos pessoais ficam no navegador.",
   applicationName: "FreeUse.store",
+  manifest: "/manifest.webmanifest",
+  icons: {
+    icon: [
+      { url: "/freeuse-icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/freeuse-mark.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [{ url: "/freeuse-apple-touch.png", sizes: "180x180", type: "image/png" }],
+  },
+  appleWebApp: { capable: true, title: "FreeUse", statusBarStyle: "default" },
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
@@ -25,6 +34,8 @@ export const metadata = {
   },
   robots: { index: true, follow: true },
 };
+
+export const viewport = { themeColor: "#0b3473" };
 
 export default function RootLayout({ children }) {
   return (

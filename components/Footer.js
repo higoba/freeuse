@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import FooterContact from "@/components/FooterContact";
 
@@ -5,7 +6,10 @@ export default function Footer() {
   return <footer className="site-footer">
     <div className="container footer-main">
       <div>
-        <Link href="/" className="brand footer-brand"><span className="brand-mark">f</span><span>freeuse<span className="brand-dot">.</span>store</span></Link>
+        <Link href="/" className="brand footer-brand">
+          <Image src="/freeuse-mark.png" alt="" width={40} height={40} />
+          <span>freeuse<span className="brand-dot">.</span>store</span>
+        </Link>
         <p>Ferramentas úteis, gratuitas e sem complicação.</p>
       </div>
       <nav className="footer-links" aria-label="Links institucionais">

@@ -1,7 +1,7 @@
 import Link from "next/link";
-import ToolSearch from "@/components/ToolSearch";
 import ToolCard from "@/components/ToolCard";
 import AdSlot from "@/components/AdSlot";
+import PwaInstallButton from "@/components/PwaInstallButton";
 import StructuredData from "@/components/StructuredData";
 import { categories, tools, SITE_URL } from "@/lib/tools";
 
@@ -20,23 +20,17 @@ export default function HomePage() {
       <section className="hero">
         <div className="container hero-grid">
           <div className="hero-copy">
-            <span className="eyebrow"><span className="status-dot" /> Ferramentas grátis. Sem cadastro.</span>
-            <h1>O útil, sem complicação.</h1>
-            <p>Ferramentas online grátis para imagens, trabalho, negócios e viagens. Resolva tarefas do dia a dia com seus arquivos processados no próprio dispositivo.</p>
+            <span className="eyebrow"><span className="status-dot" /> Seu FreeUse, sempre à mão</span>
+            <h1>Suas ferramentas a um toque de distância.</h1>
+            <p>Adicione o FreeUse à tela inicial do celular ou do computador e abra em um clique, como um aplicativo. Sem baixar pela loja.</p>
           </div>
           <div className="hero-note">
-            <span className="note-icon" aria-hidden="true">✳</span>
-            <p>Útil de verdade.<br /><strong>Grátis para usar.</strong></p>
-            <span className="note-caption">Sem conta. Sem enviar seus arquivos.</span>
+            <span className="note-icon" aria-hidden="true">↗</span>
+            <p>Crie seu acesso direto.<br /><strong>Instale o FreeUse no seu aparelho.</strong></p>
+            <PwaInstallButton />
+            <span className="note-caption">No iPhone ou iPad, use Compartilhar e “Adicionar à Tela de Início”.</span>
           </div>
         </div>
-      </section>
-
-      <section className="section container" aria-labelledby="busca-title">
-        <div className="section-heading">
-          <div><span className="eyebrow">Encontre o que precisa</span><h2 id="busca-title">Qual tarefa vamos resolver?</h2></div>
-        </div>
-        <ToolSearch tools={tools} />
       </section>
 
       <section className="section section-muted">

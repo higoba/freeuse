@@ -1,5 +1,8 @@
 "use client";
 
+import ToolSearch from "@/components/ToolSearch";
+import { tools } from "@/lib/tools";
+
 const CONTACT_EMAIL = "contato@freeuse.store";
 
 function openEmail(subject, message) {
@@ -13,7 +16,9 @@ export default function FooterContact() {
       <span className="eyebrow">Sua ideia ajuda a melhorar</span>
       <h2 id="footer-contact-title">Fale com a gente</h2>
       <p>Uma caixa para sua dica, sugestão ou mensagem. O envio abre seu aplicativo de e-mail.</p>
+      <p>Também criamos apps e ferramentas personalizadas. Se você precisa de uma solução específica, conte pra gente por aqui.</p>
     </div>
+    <ToolSearch tools={tools} />
     <form className="footer-message-form" onSubmit={(event) => {
       event.preventDefault();
       const formData = new FormData(event.currentTarget);
