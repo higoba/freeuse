@@ -1,5 +1,6 @@
 import Link from "next/link";
 import ToolCard from "@/components/ToolCard";
+import ToolSearch from "@/components/ToolSearch";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import AdSlot from "@/components/AdSlot";
 import { categories, tools } from "@/lib/tools";
@@ -23,6 +24,7 @@ export default async function ToolsPage({ searchParams }) {
       <h1>{selected ? selected.name : "Todas as ferramentas"}</h1>
       <p>{selected ? selected.description : "Utilidades online para resolver tarefas do dia a dia. Seus arquivos permanecem no seu dispositivo."}</p>
     </div>
+    <ToolSearch tools={visible} />
     <nav className="filter-row" aria-label="Categorias">
       <Link className={`filter-chip ${!category ? "active" : ""}`} href="/ferramentas">Todas</Link>
       {categories.map((item) => <Link className={`filter-chip ${category === item.slug ? "active" : ""}`} key={item.slug} href={`/ferramentas?categoria=${item.slug}`}>{item.name}</Link>)}

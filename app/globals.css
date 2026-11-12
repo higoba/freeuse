@@ -238,7 +238,6 @@ h1,h2,h3,p{margin-top:0}
 .footer-contact-note{margin:14px 0 0;font-size:11px}
 .ad-wrap{min-height:0}
 .google-ad{width:100%;min-height:100px;margin-inline:auto}
-.footer-contact .tool-search-wrap{margin-top:20px}
 @media(max-width:760px){
   .header-inner{height:60px;gap:12px}
   .main-nav,.tool-tabs{display:none}

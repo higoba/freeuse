@@ -1,6 +1,8 @@
 import Link from "next/link";
+import Image from "next/image";
 import ToolCard from "@/components/ToolCard";
 import AdSlot from "@/components/AdSlot";
+import ToolSearch from "@/components/ToolSearch";
 import PwaInstallButton from "@/components/PwaInstallButton";
 import StructuredData from "@/components/StructuredData";
 import { categories, tools, SITE_URL } from "@/lib/tools";
@@ -25,12 +27,19 @@ export default function HomePage() {
             <p>Adicione o FreeUse à tela inicial do celular ou do computador e abra em um clique, como um aplicativo. Sem baixar pela loja.</p>
           </div>
           <div className="hero-note">
-            <span className="note-icon" aria-hidden="true">↗</span>
+            <span className="note-icon" aria-hidden="true"><Image src="/freeuse-mark.png" alt="" width={42} height={42} /></span>
             <p>Crie seu acesso direto.<br /><strong>Instale o FreeUse no seu aparelho.</strong></p>
             <PwaInstallButton />
             <span className="note-caption">No iPhone ou iPad, use Compartilhar e “Adicionar à Tela de Início”.</span>
           </div>
         </div>
+      </section>
+
+      <section className="section container" aria-labelledby="busca-title">
+        <div className="section-heading">
+          <div><span className="eyebrow">Encontre o que precisa</span><h2 id="busca-title">Qual tarefa vamos resolver?</h2></div>
+        </div>
+        <ToolSearch tools={tools} />
       </section>
 
       <section className="section section-muted">
