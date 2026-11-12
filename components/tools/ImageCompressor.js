@@ -150,7 +150,7 @@ export default function ImageCompressor() {
         const change = item.result ? (1 - item.result.blob.size / item.file.size) * 100 : null;
         const changeLabel = change === null ? "" : change >= 0 ? `Redução ${change.toLocaleString("pt-BR", { maximumFractionDigits: 1 })}%` : `Aumento ${Math.abs(change).toLocaleString("pt-BR", { maximumFractionDigits: 1 })}%`;
         return <article className="image-result" key={item.id}>
-          <div className="image-result-preview"><Image src={item.result?.url || item.preview} alt={`Prévia de ${item.file.name}`} fill unoptimized sizes="90px" /></div>
+          <div className="image-result-preview"><Image src={item.result?.url || item.preview} alt={`Prévia de ${item.file.name}`} width={90} height={90} unoptimized sizes="90px" /></div>
           <div className="image-result-info">
             <div className="result-title-row"><strong>{item.file.name}</strong><button className="quiet-button" type="button" disabled={busy} onClick={() => removeImage(item.id)} aria-label={`Remover ${item.file.name}`}>Remover</button></div>
             <div className="image-stats"><span>Original <b>{formatFileSize(item.file.size)}</b></span>{item.result && <><span>Comprimida <b>{formatFileSize(item.result.blob.size)}</b></span><span>{changeLabel}</span><span>Dimensões <b>{item.result.width} × {item.result.height}</b></span></>}</div>

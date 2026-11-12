@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import ToolCard from "@/components/ToolCard";
 import ToolSearch from "@/components/ToolSearch";
+import ToolIcon from "@/components/ToolIcon";
 import PwaInstallButton from "@/components/PwaInstallButton";
 import StructuredData from "@/components/StructuredData";
 import { categories, tools, SITE_URL } from "@/lib/tools";
@@ -22,7 +23,7 @@ export default function HomePage() {
         <div className="container hero-grid">
           <div className="hero-copy">
             <span className="eyebrow"><span className="status-dot" /> Seu FreeUse, sempre à mão</span>
-            <h1>Suas ferramentas a um toque de distância.</h1>
+            <h1>Suas ferramentas a <em>um toque</em> de distância.</h1>
             <p>Adicione o FreeUse à tela inicial do celular ou do computador e abra em um clique, como um aplicativo. Sem baixar pela loja.</p>
           </div>
           <div className="hero-note">
@@ -57,7 +58,7 @@ export default function HomePage() {
           {categories.map((category) => {
             const count = tools.filter((tool) => tool.category === category.slug).length;
             return <Link className="category-card" href={`/ferramentas?categoria=${category.slug}`} key={category.slug}>
-              <span className="category-icon" aria-hidden="true">{category.slug === "imagens" ? "▧" : category.slug === "negocios" ? "↗" : category.slug === "trabalho" ? "◷" : category.slug === "moedas" ? "⇄" : "⌁"}</span>
+              <span className={`category-icon category-icon-${category.slug}`}><ToolIcon name={category.slug} /></span>
               <span><strong>{category.name}</strong><small>{category.description}</small></span>
               <span className="category-count">{count} {count === 1 ? "ferramenta" : "ferramentas"}</span>
             </Link>;

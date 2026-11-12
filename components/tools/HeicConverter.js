@@ -103,7 +103,7 @@ export default function HeicConverter() {
     {files.length > 0 && <div className="tool-action-row"><span>{files.length} {files.length === 1 ? "arquivo selecionado" : "arquivos selecionados"}</span><div className="action-group"><button className="button button-primary" type="button" disabled={busy} onClick={convertAll}>{busy ? "Processando…" : "Converter para JPG"}</button><button className="button button-secondary" type="button" disabled={busy || !files.some((item) => item.result)} onClick={downloadZip}>Baixar convertidos em ZIP</button></div></div>}
     {progress && <p className="processing-state" role="status" aria-live="polite"><span className="spinner" />{progress}</p>}
     <div className="heic-list">{files.map((item) => <article className="image-result" key={item.id}>
-      <div className="image-result-preview">{item.result ? <Image src={item.result.url} alt={`Prévia convertida de ${item.result.name}`} fill unoptimized sizes="90px" /> : <span className="file-type-mark">HEIC</span>}</div>
+      <div className="image-result-preview">{item.result ? <Image src={item.result.url} alt={`Prévia convertida de ${item.result.name}`} width={90} height={90} unoptimized sizes="90px" /> : <span className="file-type-mark">HEIC</span>}</div>
       <div className="image-result-info"><div className="result-title-row"><strong>{item.file.name}</strong><button className="quiet-button" type="button" disabled={busy} onClick={() => remove(item.id)}>Remover</button></div>
         <div className="image-stats"><span>Original <b>{formatFileSize(item.file.size)}</b></span>{item.result && <span>JPG <b>{formatFileSize(item.result.blob.size)}</b></span>}</div>
         {item.error && <p className="form-error" role="alert">{item.error}</p>}

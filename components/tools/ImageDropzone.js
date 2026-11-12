@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import ToolIcon from "@/components/ToolIcon";
 
 export const MAX_IMAGE_BYTES = 25 * 1024 * 1024;
 const IMAGE_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
@@ -32,7 +33,7 @@ export default function ImageDropzone({ accept, multiple = false, onFiles, title
       onDrop={(event) => { event.preventDefault(); setDragging(false); receive(event.dataTransfer.files); }}
     >
       <input ref={inputRef} className="sr-only" type="file" accept={accept} multiple={multiple} onChange={(event) => { receive(event.target.files); event.target.value = ""; }} />
-      <span className="dropzone-icon" aria-hidden="true">↑</span>
+      <span className="dropzone-icon"><ToolIcon name="upload" size={22} /></span>
       <strong>{title || "Arraste seus arquivos para cá"}</strong>
       <span>{detail || "ou escolha no seu dispositivo"}</span>
       <button className="button button-secondary" type="button" onClick={() => inputRef.current?.click()}>{multiple ? "Escolher arquivos" : "Escolher arquivo"}</button>

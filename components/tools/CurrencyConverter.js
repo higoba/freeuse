@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import ToolIcon from "@/components/ToolIcon";
 import { calculateConversion, COMMON_CURRENCY_CODES, CURRENCY_NAMES_PT, chartCoordinates, summarizeHistory } from "@/lib/currency.js";
 
 const periods = [
@@ -179,7 +180,7 @@ export default function CurrencyConverter() {
           <input type="number" min="0" step="0.01" inputMode="decimal" value={amount} onChange={(event) => setAmount(event.target.value)} />
         </label>
         <CurrencySelect label="De" value={base} onChange={setBase} available={available} />
-        <button className="button button-outline currency-swap" type="button" onClick={swapCurrencies} aria-label="Inverter moedas">⇄</button>
+        <button className="button button-outline currency-swap" type="button" onClick={swapCurrencies} aria-label="Inverter moedas"><ToolIcon name="swap" size={19} /></button>
         <CurrencySelect label="Para" value={quote} onChange={setQuote} available={available} />
       </div>
       <div className="currency-result" aria-live="polite">

@@ -4,6 +4,14 @@ import Footer from "@/components/Footer";
 import AdSenseScript from "@/components/AdSenseScript";
 import RouteScrollReset from "@/components/RouteScrollReset";
 import { SITE_URL } from "@/lib/tools";
+import { Jost } from "next/font/google";
+
+const jost = Jost({
+  subsets: ["latin", "latin-ext"],
+  weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
+  variable: "--font-jost",
+});
 
 export const metadata = {
   metadataBase: new URL(SITE_URL),
@@ -39,7 +47,7 @@ export const viewport = { themeColor: "#0b3473" };
 export default function RootLayout({ children }) {
   return (
     <html lang="pt-BR">
-      <body>
+      <body className={jost.variable}>
         <AdSenseScript />
         <Header />
         <RouteScrollReset />

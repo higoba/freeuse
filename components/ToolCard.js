@@ -1,16 +1,16 @@
 import Link from "next/link";
+import ToolIcon from "@/components/ToolIcon";
 
-const icons = { imagens: "▧", negocios: "↗", trabalho: "◷", viagens: "⌁" };
-const categoryNames = { imagens: "Imagens", negocios: "Negócios", trabalho: "Trabalho", viagens: "Viagens" };
+const categoryNames = { imagens: "Imagens", negocios: "Negócios", trabalho: "Trabalho", viagens: "Viagens", moedas: "Moedas" };
 
 export default function ToolCard({ tool, index = 0 }) {
   return <Link className="tool-card" href={`/ferramentas/${tool.slug}`}>
-    <span className={`tool-icon tool-icon-${tool.category}`} aria-hidden="true">{icons[tool.category] || "✳"}</span>
+    <span className={`tool-icon tool-icon-${tool.category}`}><ToolIcon name={tool.slug} /></span>
     <span className="tool-card-content">
       <span className="tool-card-category">{categoryNames[tool.category] || "Ferramenta"}</span>
       <strong>{tool.shortTitle}</strong>
-      <span className="tool-card-description">{tool.description}</span>
-      <span className="tool-card-link">{index < 3 ? "Conhecer ferramenta" : "Usar ferramenta"} <span aria-hidden="true">↗</span></span>
     </span>
+    <span className="tool-card-description">{tool.description}</span>
+    <span className="tool-card-link">{index < 3 ? "Conhecer ferramenta" : "Usar ferramenta"} <span aria-hidden="true">↗</span></span>
   </Link>;
 }

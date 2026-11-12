@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import ToolIcon from "@/components/ToolIcon";
 import { calculateTravelCost, compareTravelVehicles, formatTravelNumber } from "@/lib/travel.js";
 
 const initialVehicle = {
@@ -445,7 +446,7 @@ export default function TravelCostCalculator() {
       </form>
 
       {result ? <TravelEstimate result={result} values={values} comparisons={comparisons} journey={journey} prices={prices} onShare={shareEstimate} shareStatus={shareStatus} /> : <aside className="travel-empty">
-        <span className="travel-empty-icon" aria-hidden="true">⌁</span>
+        <span className="travel-empty-icon"><ToolIcon name="route" size={24} /></span>
         <h2>Descubra o custo estimado</h2>
         <p>Informe distância, consumo e preços. Adicione trechos e compare veículos usando as mesmas condições.</p>
       </aside>}
