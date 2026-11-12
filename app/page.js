@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import ToolCard from "@/components/ToolCard";
-import AdSlot from "@/components/AdSlot";
 import ToolSearch from "@/components/ToolSearch";
 import PwaInstallButton from "@/components/PwaInstallButton";
 import StructuredData from "@/components/StructuredData";
@@ -51,7 +50,6 @@ export default function HomePage() {
           <div className="tool-grid">{featured.map((tool, index) => <ToolCard key={tool.slug} tool={tool} index={index} />)}</div>
         </div>
       </section>
-      <section className="container"><AdSlot slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_MIDDLE || process.env.NEXT_PUBLIC_ADSENSE_SLOT_HOME} /></section>
 
       <section className="section container">
         <div className="section-heading"><div><span className="eyebrow">Organizadas para você</span><h2>Explore por categoria</h2></div></div>

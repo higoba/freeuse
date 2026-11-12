@@ -1,5 +1,4 @@
 import Breadcrumbs from "@/components/Breadcrumbs";
-import AdSlot from "@/components/AdSlot";
 
 export const metadata = {
   title: "Contato",
@@ -13,7 +12,6 @@ export default function ContactPage() {
     <span className="eyebrow">Estamos por aqui</span>
     <h1>Contato</h1>
     <p className="lead">Encontrou um problema ou quer sugerir uma ferramenta?</p>
-    <AdSlot slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_MIDDLE} />
     <p>Use o formulário <a href="#footer-contact-title">Fale com a gente</a>, no rodapé, para enviar sua dúvida, sugestão ou relato de problema diretamente à nossa equipe.</p>
     <p>Não inclua senhas ou outras informações sensíveis na mensagem.</p>
   </section>;

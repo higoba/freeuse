@@ -1,5 +1,4 @@
 import Breadcrumbs from "@/components/Breadcrumbs";
-import AdSlot from "@/components/AdSlot";
 
 export const metadata = {
   title: "Política de privacidade",
@@ -13,7 +12,6 @@ export default function PrivacyPage() {
     <span className="eyebrow">Seus dados são seus</span>
     <h1>Política de privacidade</h1>
     <p className="muted">Última atualização: 12 de novembro de 2026</p>
-    <AdSlot slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_MIDDLE} />
     <h2>Arquivos usados nas ferramentas</h2>
     <p>Na versão atual, a compressão de imagens, o recorte 3x4 e a conversão de HEIC são feitos localmente no navegador. Os arquivos selecionados não são enviados ao FreeUse.store e não são guardados pelo site. Os resultados permanecem no dispositivo até que você os baixe ou feche a página.</p>
     <h2>Dados de navegação</h2>

@@ -4,7 +4,6 @@ import ToolWorkspace from "@/components/tools/ToolWorkspace";
 import ToolCard from "@/components/ToolCard";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import StructuredData from "@/components/StructuredData";
-import AdSlot from "@/components/AdSlot";
 import { categories, getTool, relatedTools, tools, SITE_URL } from "@/lib/tools";
 
 export function generateStaticParams() {
@@ -45,7 +44,6 @@ export default async function ToolPage({ params }) {
       <span className="privacy-pill"><span aria-hidden="true">◉</span> Sem cadastro · {tool.privacyLabel || "processamento local"}</span>
     </header>
     <ToolWorkspace slug={tool.slug} />
-    <AdSlot slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_MIDDLE || process.env.NEXT_PUBLIC_ADSENSE_SLOT_TOOL} />
     <section className="editorial">
       <h2>Como usar {tool.shortTitle.toLocaleLowerCase("pt-BR")}</h2>
       <ol className="instruction-list">{tool.steps.map((step) => <li key={step}>{step}</li>)}</ol>

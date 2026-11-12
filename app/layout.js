@@ -2,7 +2,6 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import AdSenseScript from "@/components/AdSenseScript";
-import AdSlot from "@/components/AdSlot";
 import RouteScrollReset from "@/components/RouteScrollReset";
 import { SITE_URL } from "@/lib/tools";
 
@@ -45,9 +44,7 @@ export default function RootLayout({ children }) {
         <Header />
         <RouteScrollReset />
         <main id="conteudo">
-          <div className="container site-ad-placement site-ad-top"><AdSlot slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_TOP} /></div>
           {children}
-          <div className="container site-ad-placement site-ad-bottom"><AdSlot slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_BOTTOM} /></div>
         </main>
         <Footer />
       </body>

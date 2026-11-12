@@ -1,5 +1,4 @@
 import Breadcrumbs from "@/components/Breadcrumbs";
-import AdSlot from "@/components/AdSlot";
 
 export const metadata = {
   title: "Termos de uso",
@@ -13,7 +12,6 @@ export default function TermsPage() {
     <span className="eyebrow">Uso responsável</span>
     <h1>Termos de uso</h1>
     <p className="muted">Última atualização: 11 de novembro de 2026</p>
-    <AdSlot slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_MIDDLE} />
     <h2>Disponibilidade</h2>
     <p>O FreeUse.store oferece ferramentas gratuitas e pode atualizar, alterar ou interromper funcionalidades para manutenção e evolução do serviço.</p>
     <h2>Resultados e limitações</h2>

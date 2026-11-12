@@ -58,7 +58,7 @@ Não há autenticação nem banco de dados. A URL canônica padrão é `https://
 
 - O script do editor AdSense é carregado no `<head>` global usando o publisher ID `ca-pub-2521433324822656`.
 - `public/ads.txt` declara o vendedor autorizado. O arquivo deve ficar acessível em `https://freeuse.store/ads.txt` depois do deploy.
-- Há três posições por página: topo, meio do conteúdo e fim. Sem um ID real, a posição fica reservada e nenhum anúncio é solicitado. Copie `.env.example` e configure `NEXT_PUBLIC_ADSENSE_SLOT_TOP`, `NEXT_PUBLIC_ADSENSE_SLOT_MIDDLE` e `NEXT_PUBLIC_ADSENSE_SLOT_BOTTOM` com IDs criados no painel do AdSense. Não invente IDs.
+- Os anúncios são automáticos: ative o Auto ads no painel do AdSense. O site não cria unidades manuais nem exibe espaços reservados; o Google decide onde mostrar anúncios, conforme a aprovação e as configurações da conta.
 - Publique a política de privacidade, os termos e o contato com informações verdadeiras, configure o site no painel do AdSense e verifique propriedade, ads.txt, consentimento e requisitos de conteúdo. A inclusão do código ou o cumprimento de boas práticas não garante aprovação. Se houver público no Espaço Econômico Europeu, Reino Unido ou Suíça, configure uma plataforma de consentimento certificada pelo Google antes de exibir anúncios nessas regiões.
 - O formulário do rodapé envia dicas, sugestões e mensagens pelo endpoint `app/api/contato/route.js`, usando SMTP no servidor. As mensagens seguem para `CONTACT_TO`; o endereço de quem escreveu, quando informado, é usado como `Reply-To`. O site não mantém cópia persistente das mensagens.
 
