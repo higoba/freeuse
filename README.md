@@ -60,7 +60,25 @@ Não há autenticação nem banco de dados. A URL canônica padrão é `https://
 - `public/ads.txt` declara o vendedor autorizado. O arquivo deve ficar acessível em `https://freeuse.store/ads.txt` depois do deploy.
 - Há três posições por página: topo, meio do conteúdo e fim. Sem um ID real, a posição fica reservada e nenhum anúncio é solicitado. Copie `.env.example` e configure `NEXT_PUBLIC_ADSENSE_SLOT_TOP`, `NEXT_PUBLIC_ADSENSE_SLOT_MIDDLE` e `NEXT_PUBLIC_ADSENSE_SLOT_BOTTOM` com IDs criados no painel do AdSense. Não invente IDs.
 - Publique a política de privacidade, os termos e o contato com informações verdadeiras, configure o site no painel do AdSense e verifique propriedade, ads.txt, consentimento e requisitos de conteúdo. A inclusão do código ou o cumprimento de boas práticas não garante aprovação. Se houver público no Espaço Econômico Europeu, Reino Unido ou Suíça, configure uma plataforma de consentimento certificada pelo Google antes de exibir anúncios nessas regiões.
-- O formulário único do rodapé prepara uma dica, sugestão, relato de problema ou mensagem para `contato@freeuse.store` no aplicativo de e-mail do visitante. Ele não envia nem armazena mensagens no servidor; a pessoa precisa confirmar o envio no próprio aplicativo.
+- O formulário do rodapé envia dicas, sugestões e mensagens pelo endpoint `app/api/contato/route.js`, usando SMTP no servidor. As mensagens seguem para `CONTACT_TO`; o endereço de quem escreveu, quando informado, é usado como `Reply-To`. O site não mantém cópia persistente das mensagens.
+
+## SMTP de contato na Hostinger
+
+1. No hPanel da Hostinger, crie a caixa `contato@freeuse.store` (ou confirme que ela já existe) e consulte **Configuração manual / Configuração de e-mail** para ver o servidor SMTP e as portas da sua conta.
+2. No Coolify, abra a aplicação FreeUse e adicione estas variáveis em **Environment Variables**:
+
+   ```text
+   SMTP_HOST=smtp.hostinger.com
+   SMTP_PORT=465
+   SMTP_USER=contato@freeuse.store
+   SMTP_PASSWORD=<senha da caixa de e-mail>
+   CONTACT_TO=contato@freeuse.store
+   ```
+
+   Use os valores de servidor e porta informados no hPanel. A porta `465` usa SSL; a `587` usa STARTTLS e também é aceita. `SMTP_USER` deve ser o endereço completo da caixa, e `SMTP_PASSWORD` é a senha dessa caixa.
+3. Não use o prefixo `NEXT_PUBLIC_` e não coloque a senha no código, no `.env.example` ou em commits. Cadastre a senha somente como variável secreta no Coolify.
+4. Salve as variáveis e faça **redeploy/rebuild** da aplicação para o processo Next.js recebê-las.
+5. Teste o formulário do rodapé e confira a caixa de entrada e o spam. Se o envio falhar, consulte os logs da aplicação no Coolify; a rota não registra o conteúdo da mensagem nem as credenciais. A VPS precisa permitir conexões de saída TCP na porta SMTP escolhida.
 
 ## GitHub Actions
 

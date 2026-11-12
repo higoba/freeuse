@@ -14,7 +14,7 @@ export default function ContactPage() {
     <h1>Contato</h1>
     <p className="lead">Encontrou um problema ou quer sugerir uma ferramenta?</p>
     <AdSlot slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_MIDDLE} />
-    <p>Envie uma mensagem para <a href="mailto:contato@freeuse.store">contato@freeuse.store</a> ou use o formulário único no rodapé para mandar uma dica, sugestão ou relatar um problema. Ele abre seu aplicativo de e-mail com a mensagem preparada; é necessário confirmar o envio nesse aplicativo.</p>
-    <p>Não inclua arquivos pessoais, senhas ou outras informações sensíveis no e-mail.</p>
+    <p>Use o formulário <a href="#footer-contact-title">Fale com a gente</a>, no rodapé, para enviar sua dúvida, sugestão ou relato de problema diretamente à nossa equipe.</p>
+    <p>Não inclua senhas ou outras informações sensíveis na mensagem.</p>
   </section>;
 }
