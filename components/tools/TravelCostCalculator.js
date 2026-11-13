@@ -25,7 +25,10 @@ const initialVehicle = {
 };
 
 const initialTrip = {
+  origin: "",
+  destination: "",
   distanceKm: "",
+  tollCost: "",
   firstSegmentLabel: "Origem → destino",
   roundTrip: false,
   averageSpeedKmh: "",
@@ -168,29 +171,52 @@ function TravelEstimate({ result, values, comparisons, journey, prices, onShare,
       <h2 id="travel-result-title">{vehicleName(values)}</h2>
       <p>{formatTravelNumber(result.oneWayDistanceKm)} km de ida{result.roundTrip ? ` · ${formatTravelNumber(result.distanceKm)} km no total (ida e volta)` : ""}</p>
     </div>
+
     {result.alternatives.length > 1 && <div className="travel-alternatives">
       <h3>Comparação do veículo flex</h3>
-      <p>Estimativas com os consumos e preços informados para cada combustível.</p>
+      <p>Estimativas com os consumos e preços informados para cada combustível (incluindo pedágios).</p>
       {result.alternatives.map((alternative) => <div className={`travel-alternative${alternative.fuel === best.fuel ? " is-best" : ""}`} key={alternative.fuel}>
         <span>{fuelLabel(alternative.fuel)}{alternative.fuel === best.fuel && <strong> menor custo estimado</strong>}</span>
         <b>{money(alternative.cost)}</b>
-        <small>{formatTravelNumber(alternative.liters)} L · {formatTravelNumber(alternative.consumptionKmPerL)} km/L · {money(alternative.pricePerL)}/L · {money(alternative.costPerKm)}/km</small>
+        <small>Combustível: {money(alternative.fuelCost)} ({formatTravelNumber(alternative.liters)} L a {money(alternative.pricePerL)}/L) {result.tollCost > 0 ? `· Pedágios: ${money(result.tollCost)}` : ""}</small>
       </div>)}
     </div>}
+
     <div className="travel-total">
-      <span>{result.alternatives.length > 1 ? `Menor custo entre os valores informados (${fuelLabel(best.fuel)})` : "Custo estimado total"}</span>
+      <span>{result.alternatives.length > 1 ? `Menor custo total (${fuelLabel(best.fuel)})` : "Custo total estimado da viagem"}</span>
       <strong>{money(best.cost)}</strong>
     </div>
+
+    {/* Discriminação detalhada: Combustível vs Pedágios */}
+    <div className="travel-breakdown-card">
+      <div className="breakdown-item">
+        <span className="breakdown-label">
+          <ToolIcon name="route" size={16} />
+          <span>Combustível / Energia</span>
+        </span>
+        <b className="breakdown-value">{money(best.fuelCost)}</b>
+      </div>
+      <div className="breakdown-item">
+        <span className="breakdown-label">
+          <ToolIcon name="toll" size={16} />
+          <span>Pedágios {result.roundTrip ? "(ida e volta)" : ""}</span>
+        </span>
+        <b className="breakdown-value">{result.tollCost > 0 ? money(result.tollCost) : "R$ 0,00"}</b>
+      </div>
+    </div>
+
     <div className="travel-result-grid">
       <div><span>Distância considerada</span><b>{formatTravelNumber(result.distanceKm)} km</b></div>
-      <div><span>Custo por km</span><b>{money(best.costPerKm)}</b></div>
+      <div><span>Custo por km (total)</span><b>{money(best.costPerKm)}/km</b></div>
       <div><span>Custo por pessoa · {result.passengers} {result.passengers === 1 ? "passageiro" : "passageiros"}</span><b>{money(best.costPerPassenger)}</b></div>
-      {result.timeMinutes !== null && <div><span>Tempo pela velocidade média informada</span><b>{Math.floor(result.timeMinutes / 60)}h {String(result.timeMinutes % 60).padStart(2, "0")}min</b></div>}
+      {result.timeMinutes !== null && <div><span>Tempo estimado</span><b>{Math.floor(result.timeMinutes / 60)}h {String(result.timeMinutes % 60).padStart(2, "0")}min</b></div>}
     </div>
+
     <div className="travel-consumption">
       <h3>Energia e combustível estimados</h3>
-      {best.liters > 0 && <p><span>Combustível · {best.fuelLabel}</span><b>{formatTravelNumber(best.liters, 2)} L</b></p>}
-      {best.energyKwh > 0 && <p><span>Energia elétrica</span><b>{formatTravelNumber(best.energyKwh, 2)} kWh</b></p>}
+      {best.liters > 0 && <p><span>Combustível · {best.fuelLabel}</span><b>{formatTravelNumber(best.liters, 2)} L ({money(best.fuelCost)})</b></p>}
+      {best.energyKwh > 0 && <p><span>Energia elétrica</span><b>{formatTravelNumber(best.energyKwh, 2)} kWh ({money(best.fuelCost)})</b></p>}
+      {result.tollCost > 0 && <p><span>Pedágios totais</span><b>{money(result.tollCost)}</b></p>}
       {best.electricDistanceKm !== undefined && <>
         <p><span>Distância no modo elétrico</span><b>{formatTravelNumber(best.electricDistanceKm)} km</b></p>
         <p><span>Distância a combustão · {fuelLabel(values.phevFuel)}</span><b>{formatTravelNumber(best.combustionDistanceKm)} km</b></p>
@@ -204,35 +230,40 @@ function TravelEstimate({ result, values, comparisons, journey, prices, onShare,
       {result.autonomyKm !== null && <p><span>Autonomia informada · referência, não garantia</span><b>{formatTravelNumber(result.autonomyKm)} km</b></p>}
       {result.remainingRangeKm !== null && <p><span>Autonomia restante estimada</span><b>{formatTravelNumber(Math.max(0, result.remainingRangeKm))} km</b></p>}
     </div>
+
     {result.segments.length > 1 && <div className="travel-legs">
       <h3>Estimativa por trecho</h3>
-      {result.segments.map((segment) => <p key={segment.label}><span>{segment.label} · {formatTravelNumber(segment.distanceKm)} km{result.roundTrip ? " · ida e volta" : ""}</span><b>{money(segment.cost)}{segment.liters > 0 ? ` · ${formatTravelNumber(segment.liters, 2)} L` : ""}{segment.energyKwh > 0 ? ` · ${formatTravelNumber(segment.energyKwh, 2)} kWh` : ""}</b></p>)}
-      <small>Os custos por trecho são distribuídos proporcionalmente à distância e usam o mesmo consumo e preço médios.</small>
+      {result.segments.map((segment) => <p key={segment.label}><span>{segment.label} · {formatTravelNumber(segment.distanceKm)} km{result.roundTrip ? " · ida e volta" : ""}</span><b>{money(segment.cost)}{segment.tollCost > 0 ? ` (pedágio: ${money(segment.tollCost)})` : ""}{segment.liters > 0 ? ` · ${formatTravelNumber(segment.liters, 2)} L` : ""}</b></p>)}
+      <small>Os custos por trecho incluem a proporção de combustível e pedágios.</small>
     </div>}
+
     {comparisons.length > 1 && <section className="travel-comparison-results" aria-labelledby="travel-comparison-title">
       <h3 id="travel-comparison-title">Comparador de veículos</h3>
-      <p>Todos usam a mesma distância, ida e volta, passageiros e preços informados. O menor custo estimado aparece primeiro.</p>
+      <p>Todos usam a mesma rota, ida e volta, passageiros, pedágios e preços informados. O menor custo total aparece primeiro.</p>
       <ol>
         {comparisons.map((vehicle, index) => <li className={index === 0 ? "is-best" : ""} key={vehicle.id}>
           <div><strong>{vehicle.name}</strong>{index === 0 && <span>Menor custo estimado</span>}</div>
           <b>{money(vehicle.result.best.cost)}</b>
-          <small>{typeLabel(vehicle.vehicleType)} · {money(vehicle.result.best.costPerKm)}/km · {money(vehicle.result.best.costPerPassenger)} por pessoa{vehicle.result.best.liters ? ` · ${formatTravelNumber(vehicle.result.best.liters, 2)} L` : ""}{vehicle.result.best.energyKwh ? ` · ${formatTravelNumber(vehicle.result.best.energyKwh, 2)} kWh` : ""}</small>
+          <small>{typeLabel(vehicle.vehicleType)} · Total: {money(vehicle.result.best.cost)} (combustível: {money(vehicle.result.best.fuelCost)}{result.tollCost > 0 ? ` + pedágio: ${money(result.tollCost)}` : ""}) · {money(vehicle.result.best.costPerPassenger)}/pessoa</small>
         </li>)}
       </ol>
     </section>}
+
     {result.roundTrip && <div className="travel-legs">
       <h3>Ida e volta</h3>
-      {result.legs.map((leg) => <p key={leg.label}><span>{leg.label} · {formatTravelNumber(leg.distanceKm)} km</span><b>{money(leg.cost)}{leg.liters > 0 ? ` · ${formatTravelNumber(leg.liters, 2)} L` : ""}{leg.energyKwh > 0 ? ` · ${formatTravelNumber(leg.energyKwh, 2)} kWh` : ""}</b></p>)}
-      <small>A divisão supõe o mesmo consumo e preço nos dois sentidos.</small>
+      {result.legs.map((leg) => <p key={leg.label}><span>{leg.label} · {formatTravelNumber(leg.distanceKm)} km</span><b>{money(leg.cost)}{leg.tollCost > 0 ? ` (pedágio: ${money(leg.tollCost)})` : ""}{leg.liters > 0 ? ` · ${formatTravelNumber(leg.liters, 2)} L` : ""}</b></p>)}
+      <small>A divisão divide combustível e pedágios igualmente nos dois sentidos.</small>
     </div>}
+
     {result.remainingRangeKm !== null && result.remainingRangeKm < 0 && <p className="travel-warning" role="status">A distância total informada supera a autonomia que você registrou. O cálculo não considera paradas ou recargas.</p>}
     {result.remainingElectricRangeKm !== null && result.remainingElectricRangeKm < 0 && <p className="travel-warning" role="status">A parte elétrica informada supera a autonomia elétrica que você registrou. A divisão de modos é uma estimativa editável.</p>}
+
     <p className="travel-data-note">
       Consumo: {values.consumptionSource === "inmetro" ? "valor informado após consulta ao PBEV/Inmetro" : "valor informado por você"}{values.sourceDate ? ` · consultado em ${new Date(`${values.sourceDate}T12:00:00`).toLocaleDateString("pt-BR")}` : ""}.
       {" "}{prices.priceCity ? `${prices.priceCity} · ` : ""}{prices.priceDate ? `preços consultados em ${new Date(`${prices.priceDate}T12:00:00`).toLocaleDateString("pt-BR")} · ` : ""}{prices.priceSource === "anp" ? "valores anotados após consulta à ANP" : "preços informados por você"}.
-      {" "}A energia considera preço informado para {prices.electricityPriceType === "home" ? "tarifa residencial" : "recarga pública"}. A ferramenta não busca preços automaticamente; a <a href="https://www.gov.br/anp/pt-br/assuntos/precos-e-defesa-da-concorrencia/precos/precos-revenda-e-de-distribuicao-combustiveis" target="_blank" rel="noreferrer">pesquisa semanal da ANP</a> é regional e não representa o preço exato de um posto.
+      {" "}A energia considera preço informado para {prices.electricityPriceType === "home" ? "tarifa residencial" : "recarga pública"}.
     </p>
-    <p className="travel-disclaimer">Estimativa, não garantia de gasto ou autonomia. Trânsito, velocidade, relevo, carga, clima, manutenção, condução, disponibilidade de recarga e preço praticado alteram o resultado. O tempo não considera trânsito nem paradas.</p>
+    <p className="travel-disclaimer">Estimativa, não garantia de gasto ou autonomia. Trânsito, velocidade, relevo, carga, clima, manutenção, condução, paradas e tarifas de pedágio vigentes alteram o resultado real.</p>
     <div className="travel-share">
       <button className="button button-secondary" type="button" onClick={() => onShare(result, comparisons, journey)}>Compartilhar estimativa</button>
       {shareStatus && <span role="status">{shareStatus}</span>}
@@ -251,6 +282,13 @@ export default function TravelCostCalculator() {
   const [comparisons, setComparisons] = useState([]);
   const [error, setError] = useState("");
   const [shareStatus, setShareStatus] = useState("");
+
+  // Estados para geolocalização e cálculo automático de rota
+  const [geoLoading, setGeoLoading] = useState(false);
+  const [geoMessage, setGeoMessage] = useState("");
+  const [routeLoading, setRouteLoading] = useState(false);
+  const [routeMessage, setRouteMessage] = useState("");
+  const [routeWarning, setRouteWarning] = useState("");
 
   function clearResult() {
     setResult(null);
@@ -287,8 +325,11 @@ export default function TravelCostCalculator() {
   function addStop() {
     setStops((current) => current.length >= 9 ? current : [...current, {
       id: `trecho-${Date.now()}-${current.length}`,
+      origin: "",
+      destination: "",
       label: "",
       distanceKm: "",
+      tollCost: "",
     }]);
     clearResult();
   }
@@ -304,6 +345,119 @@ export default function TravelCostCalculator() {
     clearResult();
   }
 
+  // Pede permissão de geolocalização ao navegador e preenche a Origem
+  function handleUseCurrentLocation() {
+    if (typeof window === "undefined" || !navigator.geolocation) {
+      setGeoMessage("Seu navegador não oferece suporte à geolocalização.");
+      return;
+    }
+    setGeoLoading(true);
+    setGeoMessage("Solicitando permissão para acessar sua localização...");
+    navigator.geolocation.getCurrentPosition(
+      async (pos) => {
+        try {
+          const lat = pos.coords.latitude;
+          const lng = pos.coords.longitude;
+          const res = await fetch(`/api/rota?lat=${lat}&lng=${lng}`);
+          const data = await res.json();
+          const address = data.address || `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+          setJourney((current) => {
+            const next = {
+              ...current,
+              origin: address,
+              firstSegmentLabel: current.destination ? `${address} → ${current.destination}` : `${address} → Destino`,
+            };
+            // Se já tem destino, calcula automaticamente
+            if (current.destination) {
+              fetchAutoRoute(address, current.destination);
+            }
+            return next;
+          });
+          setGeoMessage(`Localização detectada: ${address}`);
+        } catch {
+          setGeoMessage("Localização obtida, mas não foi possível converter em endereço.");
+        } finally {
+          setGeoLoading(false);
+        }
+      },
+      (geoError) => {
+        setGeoLoading(false);
+        if (geoError.code === geoError.PERMISSION_DENIED) {
+          setGeoMessage("Permissão de localização não concedida. Você pode digitar a cidade ou endereço manualmente.");
+        } else {
+          setGeoMessage("Não foi possível obter sua localização atual.");
+        }
+      },
+      { enableHighAccuracy: true, timeout: 10000 },
+    );
+  }
+
+  // Consulta rota, distância e pedágios na API (Google Maps / Routes API com fallback)
+  async function fetchAutoRoute(origin, destination) {
+    const o = (origin || "").trim();
+    const d = (destination || "").trim();
+    if (!o || !d) {
+      setRouteWarning("Informe a origem e o destino para calcular a rota automaticamente.");
+      return;
+    }
+    setRouteLoading(true);
+    setRouteMessage("Consultando rota, distância e pedágios...");
+    setRouteWarning("");
+    try {
+      const res = await fetch(`/api/rota?origin=${encodeURIComponent(o)}&destination=${encodeURIComponent(d)}`);
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Não foi possível calcular a rota.");
+
+      setJourney((current) => ({
+        ...current,
+        origin: o,
+        destination: d,
+        distanceKm: String(data.distanceKm),
+        averageSpeedKmh: data.averageSpeedKmh ? String(data.averageSpeedKmh) : current.averageSpeedKmh,
+        tollCost: data.tollCost > 0 ? String(data.tollCost) : current.tollCost,
+        firstSegmentLabel: `${o} → ${d}`,
+      }));
+
+      const tollInfo = data.hasTolls
+        ? ` · Pedágio estimado: ${money(data.tollCost)}`
+        : data.source === "google" ? " · Sem pedágios na rota" : "";
+      setRouteMessage(`Rota calculada: ${formatTravelNumber(data.distanceKm)} km (${data.durationMinutes} min)${tollInfo}`);
+
+      if (data.warning) setRouteWarning(data.warning);
+      else if (data.notice) setRouteWarning(data.notice);
+      else setRouteWarning("");
+      clearResult();
+    } catch (err) {
+      setRouteMessage("");
+      setRouteWarning(err.message || "Erro ao consultar rota.");
+    } finally {
+      setRouteLoading(false);
+    }
+  }
+
+  // Consulta de trecho adicional (parada)
+  async function fetchStopRoute(stopId, origin, destination) {
+    const o = (origin || "").trim();
+    const d = (destination || "").trim();
+    if (!o || !d) return;
+    try {
+      const res = await fetch(`/api/rota?origin=${encodeURIComponent(o)}&destination=${encodeURIComponent(d)}`);
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+      setStops((current) => current.map((stop) => stop.id === stopId ? {
+        ...stop,
+        origin: o,
+        destination: d,
+        distanceKm: String(data.distanceKm),
+        tollCost: data.tollCost > 0 ? String(data.tollCost) : stop.tollCost,
+        label: `${o} → ${d}`,
+      } : stop));
+      clearResult();
+    } catch {
+      // Deixa o usuário preencher manualmente se falhar
+    }
+  }
+
   function vehicleInput(vehicle) {
     return { ...inputForVehicle(vehicle, prices), make: vehicle.make, model: vehicle.model, year: vehicle.year, version: vehicle.version };
   }
@@ -313,14 +467,23 @@ export default function TravelCostCalculator() {
     clearResult();
     try {
       const segments = [
-        { label: journey.firstSegmentLabel || "Trecho 1", distanceKm: journey.distanceKm },
-        ...stops.map((stop, index) => ({ label: stop.label || `Trecho ${index + 2}`, distanceKm: stop.distanceKm })),
+        {
+          label: journey.firstSegmentLabel || (journey.origin && journey.destination ? `${journey.origin} → ${journey.destination}` : "Trecho 1"),
+          distanceKm: journey.distanceKm,
+          tollCost: journey.tollCost || 0,
+        },
+        ...stops.map((stop, index) => ({
+          label: stop.label || (stop.origin && stop.destination ? `${stop.origin} → ${stop.destination}` : `Trecho ${index + 2}`),
+          distanceKm: stop.distanceKm,
+          tollCost: stop.tollCost || 0,
+        })),
       ];
       const trip = {
         segments,
         roundTrip: journey.roundTrip,
         averageSpeedKmh: journey.averageSpeedKmh,
         passengers: journey.passengers,
+        tollCost: journey.tollCost,
       };
       const primaryInput = vehicleInput(values);
       const primaryResult = calculateTravelCost({ ...primaryInput, ...trip });
@@ -348,10 +511,13 @@ export default function TravelCostCalculator() {
       `Distância total: ${formatTravelNumber(travelResult.distanceKm)} km${travelResult.roundTrip ? " (ida e volta)" : ""}`,
       `Trechos: ${trip.segments.map((segment) => `${segment.label}: ${formatTravelNumber(segment.distanceKm)} km`).join("; ")}`,
       `Passageiros: ${travelResult.passengers} · custo por pessoa: ${money(travelResult.best.costPerPassenger)}`,
+      `Combustível / Energia: ${money(travelResult.best.fuelCost)}`,
+      ...(travelResult.tollCost > 0 ? [`Pedágios: ${money(travelResult.tollCost)}${travelResult.roundTrip ? " (ida e volta)" : ""}`] : []),
+      `Custo total estimado: ${money(travelResult.best.cost)} (${money(travelResult.best.costPerKm)}/km)`,
       ...(comparedVehicles.length > 1
-        ? ["Comparação:", ...comparedVehicles.map((vehicle) => `${vehicle.name}: ${money(vehicle.result.best.cost)} (${money(vehicle.result.best.costPerPassenger)} por pessoa)`)]
-        : [`${vehicleName(values)}: ${money(travelResult.best.cost)} · ${money(travelResult.best.costPerKm)}/km`]),
-      "Valores estimados com dados informados pelo usuário; podem diferir do custo real.",
+        ? ["Comparação:", ...comparedVehicles.map((vehicle) => `${vehicle.name}: ${money(vehicle.result.best.cost)} (combustível: ${money(vehicle.result.best.fuelCost)})`)]
+        : [`${vehicleName(values)}: ${money(travelResult.best.cost)}`]),
+      "Valores estimados com dados de rota e preços informados; podem diferir do custo real.",
       "https://freeuse.store/ferramentas/calculadora-custo-viagem",
     ].join("\n");
     const shareData = { title: "Estimativa de viagem · FreeUse.store", text };
@@ -397,21 +563,121 @@ export default function TravelCostCalculator() {
         </fieldset>
 
         <fieldset className="travel-fieldset">
-          <legend>2 · Distância, paradas e passageiros</legend>
-          <div className="field-grid">
-            <Field label="Nome do trecho inicial"><input value={journey.firstSegmentLabel} onChange={(event) => updateJourney("firstSegmentLabel", event.target.value)} maxLength={100} placeholder="Ex.: São Paulo → Campinas" /></Field>
-            <Field label="Distância do trecho inicial (km)"><NumberInput value={journey.distanceKm} onChange={(event) => updateJourney("distanceKm", event.target.value)} min="0.01" max="10000000" required /></Field>
-            <Field label="Velocidade média (km/h, opcional)"><NumberInput value={journey.averageSpeedKmh} onChange={(event) => updateJourney("averageSpeedKmh", event.target.value)} min="0.01" max="500" placeholder="Ex.: 80" /></Field>
-            <Field label="Passageiros para dividir o custo"><NumberInput value={journey.passengers} onChange={(event) => updateJourney("passengers", event.target.value)} min="1" max="100" step="1" required /></Field>
-            <label className="checkbox-field travel-roundtrip"><input type="checkbox" checked={journey.roundTrip} onChange={(event) => updateJourney("roundTrip", event.target.checked)} /><span>Incluir ida e volta</span></label>
+          <legend>2 · Rota, distância e pedágios</legend>
+          <p className="field-hint">Informe sua origem e destino para calcular a distância e os pedágios automaticamente, ou use sua localização atual.</p>
+
+          <div className="travel-route-box">
+            <div className="field-grid">
+              <div className="field">
+                <div className="field-label-row">
+                  <span>Origem</span>
+                  <button
+                    type="button"
+                    className="travel-location-btn"
+                    onClick={handleUseCurrentLocation}
+                    disabled={geoLoading}
+                    title="Pedir permissão e usar minha localização atual"
+                  >
+                    <ToolIcon name="location" size={14} />
+                    <span>{geoLoading ? "Localizando…" : "Usar minha localização"}</span>
+                  </button>
+                </div>
+                <input
+                  value={journey.origin || ""}
+                  onChange={(event) => updateJourney("origin", event.target.value)}
+                  placeholder="Ex.: São Paulo, SP ou seu endereço"
+                  maxLength={150}
+                />
+              </div>
+
+              <div className="field">
+                <span>Destino</span>
+                <input
+                  value={journey.destination || ""}
+                  onChange={(event) => updateJourney("destination", event.target.value)}
+                  placeholder="Ex.: Campinas, SP ou Santos, SP"
+                  maxLength={150}
+                />
+              </div>
+            </div>
+
+            <div className="travel-route-actions">
+              <button
+                type="button"
+                className="button button-small button-secondary"
+                onClick={() => fetchAutoRoute(journey.origin, journey.destination)}
+                disabled={routeLoading || !journey.origin?.trim() || !journey.destination?.trim()}
+              >
+                <ToolIcon name="route" size={16} />
+                <span>{routeLoading ? "Calculando distância e pedágios…" : "Calcular distância e pedágios"}</span>
+              </button>
+            </div>
+
+            {geoMessage && <p className="travel-route-status is-notice" role="status">{geoMessage}</p>}
+            {routeMessage && <p className="travel-route-status is-success" role="status">{routeMessage}</p>}
+            {routeWarning && <p className="travel-route-status is-notice" role="status">{routeWarning}</p>}
           </div>
+
+          <div className="field-grid" style={{ marginTop: "16px" }}>
+            <Field label="Nome do trecho inicial">
+              <input value={journey.firstSegmentLabel} onChange={(event) => updateJourney("firstSegmentLabel", event.target.value)} maxLength={100} placeholder="Ex.: São Paulo → Campinas" />
+            </Field>
+            <Field label="Distância do trecho inicial (km)" hint="Calculada automaticamente ou editável manualmente">
+              <NumberInput value={journey.distanceKm} onChange={(event) => updateJourney("distanceKm", event.target.value)} min="0.01" max="10000000" required />
+            </Field>
+            <Field label="Pedágio estimado do trecho (R$, opcional)" hint="Calculado via Google Maps ou editável">
+              <span className="input-suffix">
+                <NumberInput value={journey.tollCost} onChange={(event) => updateJourney("tollCost", event.target.value)} min="0" max="100000" placeholder="0,00" />
+                <span>R$</span>
+              </span>
+            </Field>
+            <Field label="Velocidade média (km/h, opcional)">
+              <NumberInput value={journey.averageSpeedKmh} onChange={(event) => updateJourney("averageSpeedKmh", event.target.value)} min="0.01" max="500" placeholder="Ex.: 80" />
+            </Field>
+            <Field label="Passageiros para dividir o custo">
+              <NumberInput value={journey.passengers} onChange={(event) => updateJourney("passengers", event.target.value)} min="1" max="100" step="1" required />
+            </Field>
+            <label className="checkbox-field travel-roundtrip">
+              <input type="checkbox" checked={journey.roundTrip} onChange={(event) => updateJourney("roundTrip", event.target.checked)} />
+              <span>Incluir ida e volta (dobra distância e pedágios)</span>
+            </label>
+          </div>
+
           {stops.map((stop, index) => <div className="travel-stop-row" key={stop.id}>
-            <Field label={`Trecho ${index + 2} · nome ou parada`}><input value={stop.label} onChange={(event) => updateStop(stop.id, "label", event.target.value)} maxLength={100} placeholder="Ex.: Campinas → São Paulo" /></Field>
-            <Field label="Distância desde a etapa anterior (km)"><NumberInput value={stop.distanceKm} onChange={(event) => updateStop(stop.id, "distanceKm", event.target.value)} min="0.01" max="10000000" required /></Field>
+            <div className="field-grid" style={{ width: "100%", margin: 0 }}>
+              <Field label={`Trecho ${index + 2} · Origem`}>
+                <input value={stop.origin || ""} onChange={(e) => updateStop(stop.id, "origin", e.target.value)} placeholder="Origem" maxLength={100} />
+              </Field>
+              <Field label={`Trecho ${index + 2} · Destino`}>
+                <input value={stop.destination || ""} onChange={(e) => updateStop(stop.id, "destination", e.target.value)} placeholder="Destino" maxLength={100} />
+              </Field>
+            </div>
+            <div style={{ display: "flex", gap: "10px", width: "100%", flexWrap: "wrap" }}>
+              <button
+                type="button"
+                className="button button-small button-outline"
+                onClick={() => fetchStopRoute(stop.id, stop.origin, stop.destination)}
+                disabled={!stop.origin || !stop.destination}
+              >
+                Calcular trecho
+              </button>
+            </div>
+            <div className="field-grid" style={{ width: "100%", margin: 0 }}>
+              <Field label="Distância (km)">
+                <NumberInput value={stop.distanceKm} onChange={(event) => updateStop(stop.id, "distanceKm", event.target.value)} min="0.01" max="10000000" required />
+              </Field>
+              <Field label="Pedágio (R$, opcional)">
+                <span className="input-suffix">
+                  <NumberInput value={stop.tollCost} onChange={(event) => updateStop(stop.id, "tollCost", event.target.value)} min="0" max="100000" placeholder="0,00" />
+                  <span>R$</span>
+                </span>
+              </Field>
+            </div>
             <button className="button button-secondary travel-remove-button" type="button" onClick={() => { setStops((current) => current.filter(({ id }) => id !== stop.id)); clearResult(); }} aria-label={`Remover trecho ${index + 2}`}>Remover trecho</button>
           </div>)}
+
           <button className="button button-secondary" type="button" onClick={addStop} disabled={stops.length >= 9}>Adicionar parada ou trecho</button>
-          <p className="field-hint">Cada distância é medida desde a etapa anterior. Até 10 trechos; o cálculo por endereço e o mapa ainda não estão disponíveis.</p>
+          <p className="field-hint">Adicione paradas extras e calcule a rota entre cada trecho. Até 10 trechos.</p>
         </fieldset>
 
         <fieldset className="travel-fieldset">
@@ -431,7 +697,7 @@ export default function TravelCostCalculator() {
 
         <fieldset className="travel-fieldset">
           <legend>4 · Comparar veículos (opcional)</legend>
-          <p className="field-hint">Compare de 2 a 6 veículos na mesma rota. Informe o consumo de cada um; preços e condições da viagem são compartilhados.</p>
+          <p className="field-hint">Compare de 2 a 6 veículos na mesma rota. Todos compartilham a mesma distância e os mesmos pedágios.</p>
           {comparisonVehicles.map((vehicle, index) => <div className="travel-comparison-editor" key={vehicle.id}>
             <div className="travel-comparison-editor-heading"><h3>Veículo {index + 2}</h3><button className="button button-secondary" type="button" onClick={() => { setComparisonVehicles((current) => current.filter(({ id }) => id !== vehicle.id)); clearResult(); }}>Remover</button></div>
             <Field label="Tipo de veículo"><select value={vehicle.vehicleType} onChange={(event) => updateComparison(vehicle.id, "vehicleType", event.target.value)}>{vehicleTypes.map(([value, label]) => <option value={value} key={value}>{label}</option>)}</select></Field>
@@ -448,9 +714,9 @@ export default function TravelCostCalculator() {
       {result ? <TravelEstimate result={result} values={values} comparisons={comparisons} journey={journey} prices={prices} onShare={shareEstimate} shareStatus={shareStatus} /> : <aside className="travel-empty">
         <span className="travel-empty-icon"><ToolIcon name="route" size={24} /></span>
         <h2>Descubra o custo estimado</h2>
-        <p>Informe distância, consumo e preços. Adicione trechos e compare veículos usando as mesmas condições.</p>
+        <p>Informe distância ou origem e destino, consumo, preços e pedágios. Adicione trechos e compare veículos usando as mesmas condições.</p>
       </aside>}
     </div>
-    <p className="tool-privacy-hint">O cálculo é feito no navegador. Nenhuma localização ou dado do veículo é enviado ou salvo. O compartilhamento só acontece quando você escolhe fazê-lo.</p>
+    <p className="tool-privacy-hint">O cálculo é feito no navegador. Sua localização é consultada apenas se você permitir e serve unicamente para preencher a origem. O compartilhamento só acontece quando você escolhe fazê-lo.</p>
   </section>;
 }

@@ -74,6 +74,14 @@ const icons = {
     <rect x="15.5" y="16.5" width="5" height="5" />
     <path d="M12 12h.01" />
   </>,
+  location: <>
+    <path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7z" />
+    <circle cx="12" cy="9" r="2.5" />
+  </>,
+  toll: <>
+    <circle cx="12" cy="12" r="9" />
+    <circle cx="12" cy="12" r="4" />
+  </>,
   fallback: <>
     <rect x="4" y="4" width="6" height="6" />
     <rect x="14" y="4" width="6" height="6" />

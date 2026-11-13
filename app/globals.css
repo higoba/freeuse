@@ -2195,7 +2195,7 @@ h1, h2, h3, p {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  padding: 16px 0;
+  padding: 16px 0 12px;
   border-bottom: 1px solid var(--line);
 }
 
@@ -2210,6 +2210,104 @@ h1, h2, h3, p {
   line-height: 1.15;
   letter-spacing: -0.7px;
   font-variant-numeric: tabular-nums;
+}
+
+/* Discriminação de Combustível vs Pedágios */
+.travel-breakdown-card {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 14px 0;
+  padding: 12px 14px;
+  border: 1px solid #dce7f5;
+  border-radius: 10px;
+  background: #f4f8fd;
+}
+
+.breakdown-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.breakdown-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.breakdown-value {
+  color: #1a2a44;
+  font-size: 17px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Caixa de rota automática e geolocalização */
+.travel-route-box {
+  margin-top: 14px;
+  padding: 16px;
+  border: 1px solid #d7e4f3;
+  border-radius: 12px;
+  background: #f6f9fe;
+}
+
+.field-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+}
+
+.travel-location-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: 0;
+  background: transparent;
+  color: var(--brand);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 3px 6px;
+  border-radius: 6px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.travel-location-btn:hover:not(:disabled) {
+  background: var(--brand-light);
+  color: var(--brand-dark);
+}
+
+.travel-location-btn:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.travel-route-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.travel-route-status {
+  margin: 10px 0 0;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.travel-route-status.is-success {
+  color: #17633b;
+  font-weight: 600;
+}
+
+.travel-route-status.is-notice {
+  color: #4b5d78;
 }
 
 .travel-result-grid {
@@ -3113,6 +3211,13 @@ h1, h2, h3, p {
   .travel-empty,
   .travel-result {
     padding: 16px;
+  }
+  .travel-breakdown-card {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .travel-route-actions .button {
+    width: 100%;
   }
   .travel-result-grid {
     grid-template-columns: 1fr;
