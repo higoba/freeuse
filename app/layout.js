@@ -42,7 +42,11 @@ export const metadata = {
   robots: { index: true, follow: true },
 };
 
-export const viewport = { themeColor: "#0b3473" };
+export const viewport = {
+  themeColor: "#0b3473",
+  width: "device-width",
+  initialScale: 1,
+};
 
 export default function RootLayout({ children }) {
   return (

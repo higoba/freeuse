@@ -25,22 +25,54 @@ export default function ImageDropzone({ accept, multiple = false, onFiles, title
     if (valid.length) onFiles(multiple ? valid : [valid[0]]);
   }
 
-  return <div>
-    <div
-      className={`dropzone ${dragging ? "dropzone-active" : ""}`}
-      onDragOver={(event) => { event.preventDefault(); setDragging(true); }}
-      onDragLeave={() => setDragging(false)}
-      onDrop={(event) => { event.preventDefault(); setDragging(false); receive(event.dataTransfer.files); }}
-    >
-      <input ref={inputRef} className="sr-only" type="file" accept={accept} multiple={multiple} onChange={(event) => { receive(event.target.files); event.target.value = ""; }} />
-      <span className="dropzone-icon"><ToolIcon name="upload" size={22} /></span>
-      <strong>{title || "Arraste seus arquivos para cá"}</strong>
-      <span>{detail || "ou escolha no seu dispositivo"}</span>
-      <button className="button button-secondary" type="button" onClick={() => inputRef.current?.click()}>{multiple ? "Escolher arquivos" : "Escolher arquivo"}</button>
-      {extensions && <small>Formatos: {extensions}</small>}
+  function handleTrigger() {
+    inputRef.current?.click();
+  }
+
+  return (
+    <div>
+      <div
+        className={`dropzone ${dragging ? "dropzone-active" : ""}`}
+        role="button"
+        tabIndex={0}
+        aria-label={title || "Escolher arquivo de imagem"}
+        onClick={handleTrigger}
+        onKeyDown={(event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            handleTrigger();
+          }
+        }}
+        onDragOver={(event) => { event.preventDefault(); setDragging(true); }}
+        onDragLeave={() => setDragging(false)}
+        onDrop={(event) => { event.preventDefault(); setDragging(false); receive(event.dataTransfer.files); }}
+      >
+        <input
+          ref={inputRef}
+          className="sr-only"
+          type="file"
+          accept={accept}
+          multiple={multiple}
+          onChange={(event) => { receive(event.target.files); event.target.value = ""; }}
+        />
+        <span className="dropzone-icon" aria-hidden="true"><ToolIcon name="upload" size={24} /></span>
+        <strong>{title || "Toque aqui para escolher fotos"}</strong>
+        <span>{detail || "ou arraste arquivos do seu dispositivo"}</span>
+        <button
+          className="button button-secondary"
+          type="button"
+          onClick={(event) => {
+            event.stopPropagation();
+            handleTrigger();
+          }}
+        >
+          {multiple ? "Escolher arquivos" : "Escolher arquivo"}
+        </button>
+        {extensions && <small>Formatos: {extensions}</small>}
+      </div>
+      {error && <p className="form-error" role="alert">{error}</p>}
     </div>
-    {error && <p className="form-error" role="alert">{error}</p>}
-  </div>;
+  );
 }
 
 export function formatFileSize(bytes) {
